@@ -1,6 +1,6 @@
-# Recipe Extractor & Meal Planner
+# 🍽️ Recipe Extractor & Meal Planner
 
-A full-stack application that extracts structured recipe data from any recipe blog URL using AI (Google Gemini via LangChain), stores it in PostgreSQL, and provides a beautiful React frontend for viewing and managing recipes.
+A full-stack, AI-powered application that seamlessly extracts structured recipe data from any culinary blog URL. Using **Google Gemini** (via LangChain), this tool parses messy web pages into clean, structured data, stores it in PostgreSQL, and serves it through a beautiful modern React frontend interface.
 
 ![Tech Stack](https://img.shields.io/badge/Python-3.11+-blue?style=flat-square&logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green?style=flat-square&logo=fastapi)
@@ -9,343 +9,177 @@ A full-stack application that extracts structured recipe data from any recipe bl
 
 ---
 
-## Features
-
-### TAB 1 - Extract Recipe
-- **URL Input**: Paste any recipe blog URL
-- **Web Scraping**: Uses BeautifulSoup to extract page content
-- **AI Processing**: Google Gemini LLM extracts structured data:
-  - Recipe title, cuisine, prep/cook/total time
-  - Difficulty level (easy/medium/hard)
-  - Ingredients with quantity/unit/item separation
-  - Step-by-step instructions
-  - Nutritional estimates (calories, protein, carbs, fat)
-  - 3 ingredient substitutions with reasoning
-  - Categorized shopping list (dairy, produce, pantry, etc.)
-  - 3 related recipe suggestions
-
-### TAB 2 - Saved Recipes (History)
-- **Table View**: List all extracted recipes with metadata
-- **Details Modal**: View full recipe in structured layout
-- **Delete**: Remove recipes from database
-
-### Bonus Features
-- Meal planning mode (combine 3-7 recipes)
-- Categorized shopping lists
-- Clean, minimal UI with responsive design
+## 📑 Table of Contents
+1. [Features](#-features)
+2. [Tech Stack](#-tech-stack)
+3. [Prerequisites](#-prerequisites)
+4. [Quick Start Setup](#-quick-start-setup)
+5. [API Endpoints](#-api-endpoints)
+6. [Project Structure](#-project-structure)
+7. [LangChain Prompts](#-langchain-prompts)
+8. [Testing & Usage](#-testing--usage)
+9. [Common Issues & Solutions](#-common-issues--solutions)
+10. [Deployment](#-deployment)
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-| Component | Technology |
+### 🔍 TAB 1: Extract Recipe
+- **URL Input**: Paste any messy recipe blog URL and let the AI do the heavy lifting.
+- **Web Scraping**: Built-in BeautifulSoup extraction to grab unstructured page content.
+- **Deep AI Processing (Google Gemini & LangChain)**:
+  - 🕒 Prep, cook, and total times.
+  - 📊 Difficulty level (Easy/Medium/Hard).
+  - 🥬 Precision Ingredients (Separates quantity, unit, and item name seamlessly).
+  - 📜 Step-by-step instructions.
+  - 🥗 Nutritional estimations (Calories, Protein, Carbs, Fat).
+  - 🔄 Smart ingredient substitutions with explanations.
+  - 🛒 Categorized shopping lists (Dairy, Produce, Pantry, etc.).
+  - 🔗 Related recipe suggestions.
+
+### 📚 TAB 2: Saved Recipes (History)
+- **Table View**: Browse your entire extracted recipe database.
+- **Details Modal**: A distraction-free popup featuring the completely parsed recipe.
+- **Manage**: Delete recipes with a single click.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
 |-----------|------------|
-| Backend | Python 3.11+, FastAPI |
-| Database | PostgreSQL 14+ |
-| ORM | SQLAlchemy |
-| AI/LLM | Google Gemini via LangChain |
-| Web Scraping | BeautifulSoup4, requests |
-| Frontend | React 18+, Lucide Icons |
-| Styling | CSS3 with custom design system |
+| **Backend** | Python 3.11+, FastAPI |
+| **Database** | PostgreSQL 14+ |
+| **ORM** | SQLAlchemy |
+| **AI / LLM Core** | Google Gemini via LangChain |
+| **Web Scraping** | BeautifulSoup4, Requests |
+| **Frontend UI** | React 18+, Lucide Icons |
+| **Styling** | Vanilla CSS3 (Custom Design System) |
 
 ---
 
-## Prerequisites
+## 📋 Prerequisites
 
-- Python 3.11 or higher
-- Node.js 18+ and npm/yarn
-- PostgreSQL 14+ (local or cloud)
-- Google Gemini API Key (free tier available)
+Make sure you have the following installed to run this project smoothly:
+- **Python 3.11+**
+- **Node.js 18+** (with npm or yarn)
+- **PostgreSQL 14+** (running locally or via the cloud)
+- **Google Gemini API Key** (Fetch yours for free from [Google AI Studio](https://ai.google.dev/))
 
 ---
 
-## Setup Instructions
+## 🚀 Quick Start Setup
 
-### 1. Clone and Navigate
+For the fastest setup, ensure your requirements are met and run the provided Windows batch files! 
 
-```bash
-cd "Recipe Extractor & Meal Planner"
-```
+If you prefer to set it up manually:
 
-### 2. Backend Setup
+### 1. Backend Setup
 
 ```bash
-# Navigate to backend
-cd backend
+cd "Recipe Extractor & Meal Planner"/backend
 
-# Create virtual environment
+# 1. Create & Activate your virtual environment
 python -m venv venv
+venv\Scripts\activate   # Mac/Linux: source venv/bin/activate
 
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-
-# Install dependencies
+# 2. Install Python packages
 pip install -r requirements.txt
 
-# Configure environment
+# 3. Create your environment file
 cp .env.example .env
-# Edit .env with your database URL and Gemini API key
 ```
+Edit the `.env` to include your Database URL and your `GEMINI_API_KEY`.
 
-### 3. Environment Variables
-
-Edit `backend/.env`:
-
-```env
-# Database Configuration
-DATABASE_URL=postgresql://username:password@localhost:5432/recipe_extractor
-
-# Gemini API Key (Get from https://ai.google.dev/)
-GEMINI_API_KEY=your_gemini_api_key_here
-
-# App Configuration
-APP_HOST=0.0.0.0
-APP_PORT=8000
-DEBUG=true
-```
-
-### 4. Database Setup
+### 2. Frontend Setup
 
 ```bash
-# Create PostgreSQL database
-createdb recipe_extractor
-
-# Tables are auto-created on first run
-```
-
-### 5. Start Backend
-
-```bash
-python run.py
-```
-
-Backend runs at: `http://localhost:8000`
-
-API docs at: `http://localhost:8000/docs`
-
-### 6. Frontend Setup
-
-```bash
-# In a new terminal, navigate to frontend
 cd frontend
 
-# Install dependencies
+# 1. Install Node dependencies
 npm install
 
-# Start development server
+# 2. Start the development server
 npm start
 ```
-
-Frontend runs at: `http://localhost:3000`
+The React frontend should now be running at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## API Endpoints
+## 🔌 API Endpoints
+
+The backend is fully documented via Swagger UI. Once running, you can visit `http://localhost:8000/docs` to test endpoints.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/extract` | Extract recipe from URL |
-| GET | `/api/recipes` | List all saved recipes |
-| GET | `/api/recipes/{id}` | Get specific recipe |
-| DELETE | `/api/recipes/{id}` | Delete recipe |
-| POST | `/api/meal-plan` | Generate meal plan from recipe IDs |
-| GET | `/api/health` | Health check |
-
-### Example API Request
-
-```bash
-curl -X POST "http://localhost:8000/api/extract" \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/"}'
-```
+| `POST` | `/api/extract` | Extract a completely new recipe from a provided URL |
+| `GET` | `/api/recipes` | Fetch the list of all saved recipes |
+| `GET` | `/api/recipes/{id}` | Read a specific recipe by ID |
+| `DELETE` | `/api/recipes/{id}` | Permanently delete a recipe |
+| `POST` | `/api/meal-plan` | Generate a meal plan automatically from recipe IDs |
+| `GET` | `/api/health` | Service health status check |
 
 ---
 
-## Project Structure
+## 🏗️ Project Structure
 
+The repository is modularly split between the frontend and the AI-focused backend.
+
+```text
+Recipe Extractor & Meal Planner
+├── backend/                  # FastAPI & AI Engine
+│   ├── app/                  # Application Logic (API, Core, DB Models)
+│   ├── .env.example          # Template environment config
+│   └── run.py                # Backend execution entry point
+├── frontend/                 # React UI Application
+│   ├── public/               # Static assets
+│   ├── src/                  # React Components, Services, and CSS
+│   └── package.json          # Node dependencies
+├── prompts/                  # LangChain System Prompts (Crucial for AI Extraction)
+├── sample_data/              # Test URL lists and JSON examples
+└── start_servers.bat         # Windows quick-execution script
 ```
-Recipe Extractor & Meal Planner/
-├── backend/
-│   ├── app/
-│   │   ├── api/
-│   │   │   ├── __init__.py
-│   │   │   ├── routes.py          # FastAPI endpoints
-│   │   │   └── schemas.py         # Pydantic models
-│   │   ├── core/
-│   │   │   ├── __init__.py
-│   │   │   ├── config.py          # Settings management
-│   │   │   └── database.py        # SQLAlchemy setup
-│   │   ├── models/
-│   │   │   ├── __init__.py
-│   │   │   └── recipe.py          # Database model
-│   │   ├── services/
-│   │   │   ├── __init__.py
-│   │   │   ├── scraper.py         # BeautifulSoup scraper
-│   │   │   └── llm_service.py     # Gemini LangChain integration
-│   │   ├── utils/
-│   │   │   └── __init__.py
-│   │   └── main.py                # FastAPI application
-│   ├── .env.example
-│   ├── requirements.txt
-│   └── run.py                     # Entry point
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── RecipeExtractor.js
-│   │   │   ├── RecipeHistory.js
-│   │   │   ├── RecipeCard.js
-│   │   │   └── RecipeModal.js
-│   │   ├── services/
-│   │   │   └── api.js             # API client
-│   │   ├── App.js
-│   │   ├── index.js
-│   │   └── index.css
-│   └── package.json
-├── prompts/                       # LangChain prompts
-│   ├── recipe_extraction.md
-│   ├── nutrition_estimation.md
-│   ├── substitution_generation.md
-│   ├── shopping_list_generation.md
-│   ├── related_recipes.md
-│   └── meal_planning.md
-├── sample_data/                   # Test data
-│   ├── example_urls.txt
-│   ├── sample_output_1.json
-│   ├── sample_output_2.json
-│   └── sample_output_3.json
-└── README.md
-```
+
+All LangChain Prompts used for AI generation exist in `/prompts`, split modularly by task (extraction, nutrition, shopping list execution, etc).
 
 ---
 
-## LangChain Prompts
+## 🧪 Testing & Usage
 
-All prompts used for LLM processing are documented in the `prompts/` folder:
+You can test extraction immediately using our sample list of URLs located in `sample_data/example_urls.txt`.
+Supported structures include pages from *AllRecipes*, *Food Network*, *Serious Eats*, *Bon Appetit*, and basically any standardized food blog.
 
-1. **recipe_extraction.md** - Main extraction prompt
-2. **nutrition_estimation.md** - Calorie/macro calculation
-3. **substitution_generation.md** - Dietary alternatives
-4. **shopping_list_generation.md** - Grocery categorization
-5. **related_recipes.md** - Pairing suggestions
-6. **meal_planning.md** - Weekly meal planning
-
----
-
-## Testing
-
-### Test URLs
-
-Sample URLs for testing are in `sample_data/example_urls.txt`:
-- AllRecipes (grilled cheese, cookies, pasta)
-- Food Network (carbonara, tacos)
-- Serious Eats (pancakes, burgers)
-- Bon Appetit (roasted chicken)
-- Minimalist Baker (vegan recipes)
-
-### Run Backend Tests
-
+### Automation Testing
+To test the backend core functions:
 ```bash
 cd backend
 pytest
 ```
 
-### Manual Testing Checklist
+---
 
-1. Extract recipe from URL ✓
-2. View structured output ✓
-3. Check history table ✓
-4. Open details modal ✓
-5. Delete recipe ✓
-6. Verify database persistence ✓
+## 🩹 Common Issues & Solutions
+
+- **`MODULE_NOT_FOUND` on Windows**: Having an ampersand (`&`) in the project folder name disrupts `react-scripts`. Our `package.json` resolves this natively, but if problems persist, rename the repository folder to just `RecipeExtractor`.
+- **CORS Errors**: Check your `app/main.py` CORS middleware if your frontend is attempting to fetch from an irregular port.
+- **Gemini Quota Exceeded**: Make sure your Google AI Studio account has billing enabled (or isn't heavily rate-limited for free-tier users).
+- **Timeouts**: Due to complex LLM context window scraping, extraction can take between 5 - 15 seconds. Ensure you do not refresh the page during this process.
 
 ---
 
-## Screenshots
+## 🌍 Deployment
 
-The application includes:
-- Clean gradient header with tab navigation
-- URL input with extract button
-- Card-based recipe display
-- Structured ingredient lists
-- Numbered instructions
-- Nutrition grid
-- Categorized shopping list
-- History table with actions
-- Modal for recipe details
+**Backend**:
+Can be easily deployed on services like Render, Heroku, or PythonAnywhere. Ensure the `DATABASE_URL` is set to point toward your production Postgres database.
+
+**Frontend**:
+Standard `npx react-scripts build` architecture. Ideal for one-click deployments to Vercel or Netlify. When deploying frontend, set `REACT_APP_API_URL` locally as your hosted backend URL.
 
 ---
 
-## Common Issues & Solutions
-
-### Issue: CORS errors in frontend
-**Solution**: Backend has CORS enabled. Check `app/main.py` CORS middleware config.
-
-### Issue: Gemini API errors
-**Solution**: Verify `GEMINI_API_KEY` in `.env` file. Get key from https://ai.google.dev/
-
-### Issue: Database connection failed
-**Solution**: Check `DATABASE_URL` format:
-```
-postgresql://user:password@host:port/database
-```
-
-### Issue: URL scraping timeout
-**Solution**: Some sites block scrapers. Try different URLs or add delays in `scraper.py`.
-
----
-
-## Deployment
-
-### Backend (Render/Railway/Heroku)
-
-1. Set environment variables
-2. Configure PostgreSQL database
-3. Deploy with `pip install -r requirements.txt && python run.py`
-
-### Frontend (Vercel/Netlify)
-
-1. Set `REACT_APP_API_URL` to backend URL
-2. Build: `npm run build`
-3. Deploy build folder
-
-### Docker (Optional)
-
-```dockerfile
-# Dockerfile for backend
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["python", "run.py"]
-```
-
----
-
-## Performance Notes
-
-- LLM processing takes 5-15 seconds per recipe
-- Frontend has 60-second timeout for extraction requests
-- Database stores limited HTML (50KB max) to save space
-- Consider caching for repeated URLs
-
----
-
-## License
+## 📜 License & Credit
 
 MIT License - Free for personal and commercial use.
 
----
-
-## Author
-
-Recipe Extractor & Meal Planner - Built with FastAPI, React, and Google Gemini AI.
-
-For questions or issues, please check the sample data and prompts folders for examples.
-#   R e c i p e - E x t r a c t o r - M e a l - P l a n n e r  
- #   R e c i p e - E x t r a c t o r - M e a l - P l a n n e r  
- 
+Enjoy hassle-free recipe hunting! 🥙
