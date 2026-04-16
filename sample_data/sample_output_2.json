@@ -1,0 +1,98 @@
+{
+  "id": 2,
+  "url": "https://www.allrecipes.com/recipe/10813/best-chocolate-chip-cookies/",
+  "title": "Best Chocolate Chip Cookies",
+  "cuisine": "American",
+  "prep_time": "20 mins",
+  "cook_time": "10 mins",
+  "total_time": "1 hour 30 mins",
+  "servings": 48,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "quantity": "1",
+      "unit": "cup",
+      "item": "butter, softened"
+    },
+    {
+      "quantity": "1",
+      "unit": "cup",
+      "item": "white sugar"
+    },
+    {
+      "quantity": "1",
+      "unit": "cup",
+      "item": "packed brown sugar"
+    },
+    {
+      "quantity": "2",
+      "unit": "large",
+      "item": "eggs"
+    },
+    {
+      "quantity": "2",
+      "unit": "tsp",
+      "item": "vanilla extract"
+    },
+    {
+      "quantity": "3",
+      "unit": "cups",
+      "item": "all-purpose flour"
+    },
+    {
+      "quantity": "1",
+      "unit": "tsp",
+      "item": "baking soda"
+    },
+    {
+      "quantity": "2",
+      "unit": "tsp",
+      "item": "hot water"
+    },
+    {
+      "quantity": "0.5",
+      "unit": "tsp",
+      "item": "salt"
+    },
+    {
+      "quantity": "2",
+      "unit": "cups",
+      "item": "semisweet chocolate chips"
+    },
+    {
+      "quantity": "1",
+      "unit": "cup",
+      "item": "chopped walnuts"
+    }
+  ],
+  "instructions": [
+    "Preheat oven to 350 degrees F (175 degrees C).",
+    "Cream together the butter, white sugar, and brown sugar until smooth.",
+    "Beat in the eggs one at a time, then stir in the vanilla.",
+    "Dissolve baking soda in hot water. Add to batter along with salt.",
+    "Stir in flour, chocolate chips, and nuts.",
+    "Drop by large spoonfuls onto ungreased pans.",
+    "Bake for about 10 minutes in the preheated oven, or until edges are nicely browned."
+  ],
+  "nutrition_estimate": {
+    "calories": 285,
+    "protein": "3g",
+    "carbs": "38g",
+    "fat": "14g"
+  },
+  "substitutions": [
+    "Replace butter with coconut oil for a dairy-free version.",
+    "Use almond flour instead of all-purpose flour for gluten-free cookies.",
+    "Substitute chocolate chips with carob chips for a lower-sugar option."
+  ],
+  "shopping_list": {
+    "dairy": ["butter", "eggs"],
+    "pantry": ["white sugar", "brown sugar", "vanilla extract", "all-purpose flour", "baking soda", "salt", "semisweet chocolate chips", "chopped walnuts"]
+  },
+  "related_recipes": [
+    "Peanut Butter Cookies",
+    "Oatmeal Raisin Cookies",
+    "Double Chocolate Brownies"
+  ],
+  "created_at": "2024-01-15T11:15:00Z"
+}

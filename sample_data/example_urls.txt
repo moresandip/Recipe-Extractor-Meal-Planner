@@ -1,0 +1,50 @@
+# Sample Recipe URLs for Testing
+
+## Classic Recipes (AllRecipes)
+1. Grilled Cheese Sandwich
+   https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/
+
+2. Chocolate Chip Cookies
+   https://www.allrecipes.com/recipe/10813/best-chocolate-chip-cookies/
+
+3. Chicken Alfredo
+   https://www.allrecipes.com/recipe/11967/chicken-alfredo/
+
+## Food Network Recipes
+4. Spaghetti Carbonara
+   https://www.foodnetwork.com/recipes/food-network-kitchen/spaghetti-carbonara-recipe-2119398
+
+5. Beef Tacos
+   https://www.foodnetwork.com/recipes/food-network-kitchen/beef-tacos-recipe-2131413
+
+## Serious Eats
+6. Classic Pancakes
+   https://www.seriouseats.com/classic-pancakes-recipe
+
+7. Perfect Burger
+   https://www.seriouseats.com/perfect-burger-recipe
+
+## Bon Appetit
+8. Simple Pasta with Garlic and Oil
+   https://www.bonappetit.com/recipe/pasta-aglio-e-olio
+
+9. Roasted Chicken
+   https://www.bonappetit.com/recipe/simple-whole-roasted-chicken
+
+## Minimalist Baker
+10. Vegan Banana Bread
+    https://minimalistbaker.com/vegan-banana-bread/
+
+## Cookie and Kate
+11. Greek Salad
+    https://cookieandkate.com/greek-salad-recipe/
+
+## Budget Bytes
+12. One Pot Chicken and Rice
+    https://www.budgetbytes.com/one-pot-chicken-and-rice/
+
+## Notes:
+- These URLs are for testing the recipe extraction system
+- Some sites may require JavaScript rendering (use headless browser if needed)
+- Always respect robots.txt and rate limits
+- Results may vary based on site structure changes
