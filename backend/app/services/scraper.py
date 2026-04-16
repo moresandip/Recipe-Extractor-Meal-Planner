@@ -15,7 +15,15 @@ class RecipeScraper:
     def scrape_url(self, url: str) -> Dict[str, Any]:
         """Scrape recipe content from URL"""
         try:
-            response = requests.get(url, headers=self.headers, timeout=30)
+            import cloudscraper
+            scraper_client = cloudscraper.create_scraper(
+                browser={
+                    'browser': 'chrome',
+                    'platform': 'windows',
+                    'desktop': True
+                }
+            )
+            response = scraper_client.get(url, timeout=30)
             response.raise_for_status()
             
             soup = BeautifulSoup(response.content, 'html.parser')

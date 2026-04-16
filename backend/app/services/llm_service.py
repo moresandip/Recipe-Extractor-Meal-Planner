@@ -1,6 +1,5 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.prompts import ChatPromptTemplate
-from langchain.output_parsers import ResponseSchema, StructuredOutputParser
+
 from app.core.config import settings
 from typing import Dict, Any, List
 import json
