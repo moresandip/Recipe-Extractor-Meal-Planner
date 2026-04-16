@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Trash2, Eye, Loader2, AlertCircle, UtensilsCrossed } from 'lucide-react';
+import { Trash2, Eye, Loader2, AlertCircle, UtensilsCrossed } from 'lucide-react';
 import { getRecipes, deleteRecipe } from '../services/api';
 import RecipeModal from './RecipeModal';
 

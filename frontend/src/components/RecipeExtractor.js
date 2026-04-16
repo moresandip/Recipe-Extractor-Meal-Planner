@@ -28,14 +28,7 @@ const RecipeExtractor = ({ onRecipeExtracted }) => {
     }
   };
 
-  const getDifficultyBadge = (difficulty) => {
-    const badges = {
-      easy: 'badge-easy',
-      medium: 'badge-medium',
-      hard: 'badge-hard'
-    };
-    return badges[difficulty?.toLowerCase()] || 'badge-easy';
-  };
+
 
   return (
     <div>
