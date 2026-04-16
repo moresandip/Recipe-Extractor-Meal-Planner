@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Loader2, Link2, ChefHat, Clock, Users, BarChart3, ArrowRightLeft, ShoppingCart, Lightbulb, CheckCircle2 } from 'lucide-react';
+import { Loader2, Link2, ChefHat } from 'lucide-react';
 import { extractRecipe } from '../services/api';
 import RecipeCard from './RecipeCard';
 

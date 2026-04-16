@@ -37,7 +37,7 @@ function App() {
               color: 'white',
               textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
             }}>
-              Recipe Extractor
+              Recipe Extractor & Meal Planner
             </h1>
           </div>
           <p style={{

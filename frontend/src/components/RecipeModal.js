@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Clock, Users, BarChart3, ArrowRightLeft, ShoppingCart, Lightbulb, Utensils, CheckCircle2 } from 'lucide-react';
+import { X } from 'lucide-react';
 import RecipeCard from './RecipeCard';
 
 const RecipeModal = ({ recipe, onClose }) => {
