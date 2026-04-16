@@ -347,4 +347,5 @@ Recipe Extractor & Meal Planner - Built with FastAPI, React, and Google Gemini A
 
 For questions or issues, please check the sample data and prompts folders for examples.
 #   R e c i p e - E x t r a c t o r - M e a l - P l a n n e r  
+ #   R e c i p e - E x t r a c t o r - M e a l - P l a n n e r  
  
