@@ -22,7 +22,8 @@ const RecipeExtractor = ({ onRecipeExtracted }) => {
       setRecipe(result);
       onRecipeExtracted();
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to extract recipe. Please check the URL and try again.');
+      const errorMessage = err.response?.data?.detail || err.message || 'Failed to extract recipe. Please check the URL and try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

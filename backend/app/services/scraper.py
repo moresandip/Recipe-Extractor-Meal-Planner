@@ -16,6 +16,8 @@ class RecipeScraper:
         """Scrape recipe content from URL"""
         try:
             import cloudscraper
+            import json
+            
             scraper_client = cloudscraper.create_scraper(
                 browser={
                     'browser': 'chrome',
@@ -23,13 +25,30 @@ class RecipeScraper:
                     'desktop': True
                 }
             )
+            
+            # Use extra headers for better resilience
             response = scraper_client.get(url, timeout=30)
+            
+            if response.status_code == 404:
+                return {
+                    "success": False,
+                    "url": url,
+                    "error": f"The recipe page was not found (404). Please verify the URL: {url}"
+                }
+            
             response.raise_for_status()
             
             soup = BeautifulSoup(response.content, 'html.parser')
             
             # Extract text content
             text_content = self._extract_text(soup)
+            
+            if not text_content or len(text_content.strip()) < 100:
+                return {
+                    "success": False,
+                    "url": url,
+                    "error": "Failed to extract meaningful text from the page. It might be blocked or require JavaScript."
+                }
             
             # Try to extract structured data if available
             structured_data = self._extract_structured_data(soup)
@@ -43,17 +62,24 @@ class RecipeScraper:
                 "structured_data": structured_data
             }
             
+        except requests.exceptions.HTTPError as e:
+            status_code = e.response.status_code if e.response else "Unknown"
+            return {
+                "success": False,
+                "url": url,
+                "error": f"Website returned an error ({status_code}). Site might be blocking automated access."
+            }
         except requests.exceptions.RequestException as e:
             return {
                 "success": False,
                 "url": url,
-                "error": f"Failed to fetch URL: {str(e)}"
+                "error": f"Failed to connect to the website: {str(e)}"
             }
         except Exception as e:
             return {
                 "success": False,
                 "url": url,
-                "error": f"Scraping error: {str(e)}"
+                "error": f"Scraping logic error: {str(e)}"
             }
     
     def _extract_title(self, soup: BeautifulSoup) -> str:

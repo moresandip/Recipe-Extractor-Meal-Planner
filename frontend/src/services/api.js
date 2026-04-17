@@ -1,14 +1,30 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+const API_BASE_URL = (process.env.REACT_APP_API_URL || 'http://localhost:8000') + '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 60000, // 60 second timeout for LLM processing
+  timeout: 60000,
 });
+
+// Add error interceptor for clearer diagnostic messages
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (!error.response) {
+      // Network error or backend down
+      console.error('Network Error: Backend might be down or unreachable');
+      error.message = 'Cannot connect to backend server. Please ensure the backend is running on http://localhost:8000';
+    } else if (error.response.status === 404) {
+      console.error('404 Error: Route not found at ' + error.config.url);
+      error.message = 'API endpoint not found. Please check backend configuration.';
+    }
+    return Promise.reject(error);
+  }
+);
 
 // Extract recipe from URL
 export const extractRecipe = async (url) => {
