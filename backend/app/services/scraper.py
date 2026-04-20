@@ -2,15 +2,29 @@ import requests
 from bs4 import BeautifulSoup
 from typing import Optional, Dict, Any
 import re
+import logging
 
+logger = logging.getLogger(__name__)
 
 class RecipeScraper:
     def __init__(self):
+        # Real browser headers to avoid blocking
         self.headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-            "Accept-Language": "en-US,en;q=0.5",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Accept-Encoding": "gzip, deflate, br",
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-Fetch-Dest": "document",
+            "Sec-Fetch-Mode": "navigate",
+            "Sec-Fetch-Site": "none",
+            "Sec-Fetch-User": "?1",
+            "Cache-Control": "max-age=0",
         }
+        self.session = requests.Session()
+        self.session.headers.update(self.headers)
     
     def scrape_url(self, url: str) -> Dict[str, Any]:
         """Scrape recipe content from URL"""
@@ -27,7 +41,9 @@ class RecipeScraper:
             )
             
             # Use extra headers for better resilience
+            logger.info(f"Scraping URL: {url}")
             response = scraper_client.get(url, timeout=30)
+            logger.info(f"Response status: {response.status_code}")
             
             if response.status_code == 404:
                 return {
@@ -42,13 +58,12 @@ class RecipeScraper:
             
             # Extract text content
             text_content = self._extract_text(soup)
+            logger.info(f"Extracted text length: {len(text_content) if text_content else 0}")
             
             if not text_content or len(text_content.strip()) < 100:
-                return {
-                    "success": False,
-                    "url": url,
-                    "error": "Failed to extract meaningful text from the page. It might be blocked or require JavaScript."
-                }
+                # Try fallback with requests
+                logger.warning("Cloudscraper failed, trying fallback with requests...")
+                return self._fallback_scrape(url)
             
             # Try to extract structured data if available
             structured_data = self._extract_structured_data(soup)
@@ -76,10 +91,66 @@ class RecipeScraper:
                 "error": f"Failed to connect to the website: {str(e)}"
             }
         except Exception as e:
+            logger.error(f"Scraping error: {str(e)}")
             return {
                 "success": False,
                 "url": url,
                 "error": f"Scraping logic error: {str(e)}"
+            }
+    
+    def _fallback_scrape(self, url: str) -> Dict[str, Any]:
+        """Fallback scraping using requests session"""
+        try:
+            logger.info(f"Trying fallback scrape with session...")
+            
+            # First visit the main site to get cookies
+            try:
+                from urllib.parse import urlparse
+                parsed = urlparse(url)
+                base_url = f"{parsed.scheme}://{parsed.netloc}"
+                self.session.get(base_url, timeout=10)
+            except:
+                pass
+            
+            # Now try the actual URL
+            response = self.session.get(url, timeout=30, allow_redirects=True)
+            logger.info(f"Fallback response status: {response.status_code}")
+            
+            if response.status_code == 404:
+                return {
+                    "success": False,
+                    "url": url,
+                    "error": f"Page not found (404). The recipe may have been removed or URL is incorrect."
+                }
+            
+            response.raise_for_status()
+            
+            soup = BeautifulSoup(response.content, 'html.parser')
+            text_content = self._extract_text(soup)
+            
+            if not text_content or len(text_content.strip()) < 100:
+                return {
+                    "success": False,
+                    "url": url,
+                    "error": f"Website returned empty content. Status: {response.status_code}. Site might be blocking scrapers."
+                }
+            
+            structured_data = self._extract_structured_data(soup)
+            
+            return {
+                "success": True,
+                "url": url,
+                "title": self._extract_title(soup),
+                "html": str(soup),
+                "text_content": text_content,
+                "structured_data": structured_data
+            }
+        except Exception as e:
+            logger.error(f"Fallback scraping failed: {str(e)}")
+            return {
+                "success": False,
+                "url": url,
+                "error": f"Failed to scrape website: {str(e)}. The website may be blocking automated access."
             }
     
     def _extract_title(self, soup: BeautifulSoup) -> str:

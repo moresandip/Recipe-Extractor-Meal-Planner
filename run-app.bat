@@ -25,9 +25,9 @@ call npm install 2>nul
 cd ..
 
 echo.
-echo [4/5] Starting Backend Server on http://localhost:8000
+echo [4/5] Starting Backend Server on http://localhost:8080
 cd backend
-start "Backend Server" cmd /k "venv\Scripts\python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+start "Backend Server" cmd /k "venv\Scripts\python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload"
 cd ..
 
 echo [5/5] Waiting 5 seconds for backend to start...
@@ -43,9 +43,9 @@ echo ==========================================
 echo   SERVERS STARTED SUCCESSFULLY!
 echo ==========================================
 echo.
-echo Backend API:  http://localhost:8000
+echo Backend API:  http://localhost:8080
 echo Frontend:     http://localhost:3000
-echo API Docs:     http://localhost:8000/docs
+echo API Docs:     http://localhost:8080/docs
 echo.
 echo Opening browser in 5 seconds...
 timeout /t 5 /nobreak > nul
